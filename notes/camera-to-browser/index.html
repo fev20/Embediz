@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4f0">
+  <meta name="description" content="MIPS 위에서 실행되는 DOOM과 브라우저 사이를 WebSocket으로 연결한 화면·입력 구조.">
+  <meta property="og:title" content="MIPS DOOM 포팅: WebSocket 화면·입력 연결 | Embediz">
+  <meta property="og:description" content="MIPS 위에서 실행되는 DOOM과 브라우저 사이를 WebSocket으로 연결한 화면·입력 구조.">
+  <meta property="og:type" content="article">
+  <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../styles.css">
+  <title>MIPS DOOM 포팅: WebSocket 화면·입력 연결 | Embediz</title>
+  <script src="../../content.js" defer></script>
+  <script src="../../app.js" defer></script>
+  <meta name="embediz-root" content="../../">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta property="og:site_name" content="Embediz">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="MIPS DOOM 포팅: WebSocket 화면·입력 연결 | Embediz">
+  <meta name="twitter:description" content="MIPS 위에서 실행되는 DOOM과 브라우저 사이를 WebSocket으로 연결한 화면·입력 구조.">
+  <link rel="sitemap" type="application/xml" href="../../sitemap.xml">
+  <link rel="canonical" href="https://fev20.github.io/Embediz/notes/camera-to-browser/">
+  <meta property="og:url" content="https://fev20.github.io/Embediz/notes/camera-to-browser/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://fev20.github.io/Embediz/#organization","name":"Embediz","url":"https://fev20.github.io/Embediz/","description":"Embediz는 임베디드 보안과 하드웨어·펌웨어를 탐구하는 연구팀입니다. 홈캠 펌웨어 분석, MIPS 기반 DOOM 포팅, Secure Boot 분석 프로젝트와 연구 기록을 소개합니다."},{"@type":"WebSite","@id":"https://fev20.github.io/Embediz/#website","name":"Embediz","url":"https://fev20.github.io/Embediz/","inLanguage":"ko","publisher":{"@id":"https://fev20.github.io/Embediz/#organization"}},{"@type":"WebPage","@id":"https://fev20.github.io/Embediz/notes/camera-to-browser/#webpage","url":"https://fev20.github.io/Embediz/notes/camera-to-browser/","name":"MIPS DOOM 포팅: WebSocket 화면·입력 연결 | Embediz","description":"MIPS 위에서 실행되는 DOOM과 브라우저 사이를 WebSocket으로 연결한 화면·입력 구조.","inLanguage":"ko","isPartOf":{"@id":"https://fev20.github.io/Embediz/#website"},"about":{"@id":"https://fev20.github.io/Embediz/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Embediz","item":"https://fev20.github.io/Embediz/"},{"@type":"ListItem","position":2,"name":"연구 기록","item":"https://fev20.github.io/Embediz/notes/"},{"@type":"ListItem","position":3,"name":"MIPS DOOM 포팅: WebSocket 화면·입력 연결","item":"https://fev20.github.io/Embediz/notes/camera-to-browser/"}]},{"@type":"Article","headline":"게임은 카메라에서, 화면은 브라우저로","description":"MIPS 위에서 실행되는 DOOM과 브라우저 사이를 WebSocket으로 연결한 화면·입력 구조.","datePublished":"2026-10-25","inLanguage":"ko","mainEntityOfPage":{"@id":"https://fev20.github.io/Embediz/notes/camera-to-browser/#webpage"},"author":{"@id":"https://fev20.github.io/Embediz/#organization"},"publisher":{"@id":"https://fev20.github.io/Embediz/#organization"}}]}</script>
+</head>
+<body>
+  <a href="#main" class="skip-link">본문으로 건너뛰기</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../../" aria-label="Embediz 홈"><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M11 6H4v22h7M23 6h7v22h-7M12 17h10M17 12v10"/></svg><span>embediz<span class="brand-dot">.</span></span></a>
+      <nav class="desktop-nav" aria-label="주 메뉴"><a href="../../" data-nav="home">홈</a><a href="../../projects/" data-nav="research">프로젝트</a><a href="../../notes/" data-nav="notes" aria-current="page">연구 기록</a><a href="../../members/" data-nav="team">구성원</a><a href="../../resources/" data-nav="resources">자료실</a></nav>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="메뉴 열기"><span></span><span></span></button>
+    </div>
+    <nav id="mobile-nav" aria-label="모바일 메뉴" hidden><a href="../../">홈</a><a href="../../projects/">프로젝트</a><a href="../../notes/">연구 기록</a><a href="../../members/">구성원</a><a href="../../resources/">자료실</a></nav>
+  </header>
+  <main id="main" tabindex="-1"><div class="container"><article class="note-article"><header><div class="breadcrumb"><a href="../../">홈</a><span>/</span><a href="../../notes/">연구 기록</a><span>/</span><span>DOOM 포팅</span></div><div class="eyebrow" style="margin-top:35px">DOOM 포팅 / RESEARCH NOTE</div><h1>게임은 카메라에서, 화면은 브라우저로</h1><p class="lead">MIPS 위에서 실행되는 DOOM과 브라우저 사이를 WebSocket으로 연결한 화면·입력 구조.</p><div class="article-meta"><span>2026.10.25</span><span>Embediz</span></div></header><section id="note-0" class="article-section"><span class="section-number">01</span><h2>실행 위치와 표시 위치를 나누다</h2><p>DOOM은 PC 브라우저가 아니라 JOOAN 홈캠의 CPU에서 실행됩니다. 기기에서 생성한 화면 데이터를 WebSocket으로 전달하고, 브라우저에서는 JavaScript와 Canvas로 표시합니다. 카메라의 원래 센서 영상 스트림과는 별도의 출력 경로입니다.</p></section><section id="note-1" class="article-section"><span class="section-number">02</span><h2>화면을 전달하는 경로</h2><p>doomgeneric의 DG_DrawFrame에서 화면 버퍼를 확보하고, Mongoose를 통해 바이너리 메시지로 전송합니다. 브라우저는 전달받은 320×200 픽셀 데이터를 Canvas에 그립니다. 초기 BMP 반복 전송 방식에서 최종 WebSocket 방식으로 구성을 변경했습니다.</p></section><section id="note-2" class="article-section"><span class="section-number">03</span><h2>입력은 반대 방향으로</h2><p>브라우저에서 키의 눌림과 해제를 구분해 같은 WebSocket 연결로 전달합니다. 기기는 수신한 이벤트를 입력 큐에 저장하고, DG_GetKey를 통해 DOOM에 반환합니다. 브라우저가 포커스를 잃거나 연결이 종료될 때도 입력 상태를 정리하도록 구현했습니다.</p></section><section id="note-3" class="article-section"><span class="section-number">04</span><h2>확인한 결과와 남은 한계</h2><p>실기기 최종 시연에서 웹 Reset 버튼을 통한 실행, 게임 페이지 이동, 시작 화면과 게임 진행 중의 장면 갱신을 확인했습니다. 최종 WebSocket 구성의 정확한 fps와 장시간 실행 안정성은 검증하지 않았습니다.</p></section><p class="source-note">기록 기준: 화이트햇 스쿨 4기 최종보고서 · 2026.10.25<br>프로젝트 기록과 연구 계획을 바탕으로 정리한 공개 요약입니다.</p><a class="note-related" href="../../projects/doom-camera/"><div><small>관련 프로젝트</small><h3>홈캠에서 DOOM을 실행하다</h3></div><span aria-hidden="true">↗</span></a><div style="margin-top:30px"><a class="text-link" href="../../notes/">← 모든 연구 기록</a></div></article></div></main>
+  <footer class="site-footer"><div class="container footer-top"><a class="brand" href="../../">embediz<span class="brand-dot">.</span></a><p>기기를 이해하고, 가능성을 확장합니다.</p><a href="../../projects/">우리의 연구 살펴보기 ↗</a></div><div class="container footer-bottom"><span>© 2026 Embediz. Independent research team.</span><span>Hardware · Firmware · Beyond.</span><button class="back-top" aria-label="페이지 맨 위로">맨 위로 ↑</button></div></footer>
+  <dialog id="video-dialog" aria-labelledby="video-title"><div class="dialog-head"><div><span class="eyebrow">PROJECT 01 / DEMO</span><h2 id="video-title">홈캠에서 실행되는 DOOM</h2></div><button class="dialog-close" aria-label="영상 닫기">×</button></div><div id="video-container"></div><p class="video-caption">실기기 최종 시연 발췌 · 원본 00:34–00:48의 게임 화면 영역입니다. 게임은 카메라에서 실행됩니다.</p><a class="text-link" id="video-original" target="_blank" rel="noopener noreferrer">시연 영상 파일 열기 ↗</a></dialog>
+  <noscript><style>.filter-bar,.menu-toggle,[data-video]{display:none}.desktop-nav{display:flex!important;flex-wrap:wrap;gap:14px}.site-header{height:auto;min-height:88px}.header-inner{flex-wrap:wrap;padding:18px 0}</style></noscript>
+</body>
+</html>

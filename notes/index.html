@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4f0">
+  <meta name="description" content="홈캠 펌웨어 구조와 부팅 과정, MIPS DOOM 포팅과 WebSocket 화면 전송, Secure Boot 후속 연구 계획을 기록합니다.">
+  <meta property="og:title" content="펌웨어 분석·DOOM 포팅 연구 기록 | Embediz">
+  <meta property="og:description" content="홈캠 펌웨어 구조와 부팅 과정, MIPS DOOM 포팅과 WebSocket 화면 전송, Secure Boot 후속 연구 계획을 기록합니다.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+  <title>펌웨어 분석·DOOM 포팅 연구 기록 | Embediz</title>
+  <script src="../content.js" defer></script>
+  <script src="../app.js" defer></script>
+  <meta name="embediz-root" content="../">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta property="og:site_name" content="Embediz">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="펌웨어 분석·DOOM 포팅 연구 기록 | Embediz">
+  <meta name="twitter:description" content="홈캠 펌웨어 구조와 부팅 과정, MIPS DOOM 포팅과 WebSocket 화면 전송, Secure Boot 후속 연구 계획을 기록합니다.">
+  <link rel="sitemap" type="application/xml" href="../sitemap.xml">
+  <link rel="canonical" href="https://fev20.github.io/Embediz/notes/">
+  <meta property="og:url" content="https://fev20.github.io/Embediz/notes/">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://fev20.github.io/Embediz/#organization","name":"Embediz","url":"https://fev20.github.io/Embediz/","description":"Embediz는 임베디드 보안과 하드웨어·펌웨어를 탐구하는 연구팀입니다. 홈캠 펌웨어 분석, MIPS 기반 DOOM 포팅, Secure Boot 분석 프로젝트와 연구 기록을 소개합니다."},{"@type":"WebSite","@id":"https://fev20.github.io/Embediz/#website","name":"Embediz","url":"https://fev20.github.io/Embediz/","inLanguage":"ko","publisher":{"@id":"https://fev20.github.io/Embediz/#organization"}},{"@type":"WebPage","@id":"https://fev20.github.io/Embediz/notes/#webpage","url":"https://fev20.github.io/Embediz/notes/","name":"펌웨어 분석·DOOM 포팅 연구 기록 | Embediz","description":"홈캠 펌웨어 구조와 부팅 과정, MIPS DOOM 포팅과 WebSocket 화면 전송, Secure Boot 후속 연구 계획을 기록합니다.","inLanguage":"ko","isPartOf":{"@id":"https://fev20.github.io/Embediz/#website"},"about":{"@id":"https://fev20.github.io/Embediz/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Embediz","item":"https://fev20.github.io/Embediz/"},{"@type":"ListItem","position":2,"name":"펌웨어 분석·DOOM 포팅 연구 기록","item":"https://fev20.github.io/Embediz/notes/"}]}]}</script>
+</head>
+<body>
+  <a href="#main" class="skip-link">본문으로 건너뛰기</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="../" aria-label="Embediz 홈"><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M11 6H4v22h7M23 6h7v22h-7M12 17h10M17 12v10"/></svg><span>embediz<span class="brand-dot">.</span></span></a>
+      <nav class="desktop-nav" aria-label="주 메뉴"><a href="../" data-nav="home">홈</a><a href="../projects/" data-nav="research">프로젝트</a><a href="../notes/" data-nav="notes" aria-current="page">연구 기록</a><a href="../members/" data-nav="team">구성원</a><a href="../resources/" data-nav="resources">자료실</a></nav>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="메뉴 열기"><span></span><span></span></button>
+    </div>
+    <nav id="mobile-nav" aria-label="모바일 메뉴" hidden><a href="../">홈</a><a href="../projects/">프로젝트</a><a href="../notes/">연구 기록</a><a href="../members/">구성원</a><a href="../resources/">자료실</a></nav>
+  </header>
+  <main id="main" tabindex="-1"><div class="container"><header class="page-heading"><div class="eyebrow"><span class="section-index">03</span> RESEARCH NOTES</div><h1>알아가는 과정을 남깁니다.</h1><p>분석에서 발견한 구조, 구현하며 마주한 문제, 다음 연구의 질문.<br>프로젝트 보고서와 연구 계획을 바탕으로 정리한 기록입니다.</p></header><div class="filter-bar"><div class="filters" role="group" aria-label="연구 기록 분류"><button class="filter active" data-note-filter="전체" aria-pressed="true">전체</button><button class="filter " data-note-filter="펌웨어 분석" aria-pressed="false">펌웨어 분석</button><button class="filter " data-note-filter="DOOM 포팅" aria-pressed="false">DOOM 포팅</button><button class="filter " data-note-filter="연구 방향" aria-pressed="false">연구 방향</button></div><label class="search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="m12 12 5 5"/></svg><input id="note-search" type="search" placeholder="제목, 내용, 키워드 검색" aria-label="연구 기록 검색"></label></div><section class="listing" aria-label="연구 기록 목록"><p id="note-count" class="result-count" aria-live="polite" style="margin-bottom:18px">3개의 기록</p><div class="note-list" id="note-results"><a class="note-row reveal" href="../notes/beyond-doom/"><span class="note-category">연구 방향</span><div><h3>홈캠 분석과 글리칭·DOOM 포팅, 두 프로젝트로</h3><p>1~2월에는 홈캠 분석을 진행하고, 여름방학에는 그 결과를 바탕으로 별도의 글리칭·DOOM 포팅 프로젝트를 잠정적으로 계획합니다.</p></div><span class="note-date">2026.11.13</span><span class="note-arrow" aria-hidden="true">↗</span></a><a class="note-row reveal" href="../notes/camera-to-browser/"><span class="note-category">DOOM 포팅</span><div><h3>게임은 카메라에서, 화면은 브라우저로</h3><p>MIPS 위에서 실행되는 DOOM과 브라우저 사이를 WebSocket으로 연결한 화면·입력 구조.</p></div><span class="note-date">2026.10.25</span><span class="note-arrow" aria-hidden="true">↗</span></a><a class="note-row reveal" href="../notes/firmware-map/"><span class="note-category">펌웨어 분석</span><div><h3>펌웨어 이미지에서 실행 환경까지</h3><p>파티션, 파일시스템, 부팅 스크립트를 연결해 DOOM이 실행될 자리를 찾는 과정.</p></div><span class="note-date">2026.10.25</span><span class="note-arrow" aria-hidden="true">↗</span></a></div></section></div></main>
+  <footer class="site-footer"><div class="container footer-top"><a class="brand" href="../">embediz<span class="brand-dot">.</span></a><p>기기를 이해하고, 가능성을 확장합니다.</p><a href="../projects/">우리의 연구 살펴보기 ↗</a></div><div class="container footer-bottom"><span>© 2026 Embediz. Independent research team.</span><span>Hardware · Firmware · Beyond.</span><button class="back-top" aria-label="페이지 맨 위로">맨 위로 ↑</button></div></footer>
+  <dialog id="video-dialog" aria-labelledby="video-title"><div class="dialog-head"><div><span class="eyebrow">PROJECT 01 / DEMO</span><h2 id="video-title">홈캠에서 실행되는 DOOM</h2></div><button class="dialog-close" aria-label="영상 닫기">×</button></div><div id="video-container"></div><p class="video-caption">실기기 최종 시연 발췌 · 원본 00:34–00:48의 게임 화면 영역입니다. 게임은 카메라에서 실행됩니다.</p><a class="text-link" id="video-original" target="_blank" rel="noopener noreferrer">시연 영상 파일 열기 ↗</a></dialog>
+  <noscript><style>.filter-bar,.menu-toggle,[data-video]{display:none}.desktop-nav{display:flex!important;flex-wrap:wrap;gap:14px}.site-header{height:auto;min-height:88px}.header-inner{flex-wrap:wrap;padding:18px 0}</style></noscript>
+</body>
+</html>
