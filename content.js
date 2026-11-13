@@ -94,7 +94,8 @@ window.EMBEDIZ = {
         "MIPS",
         "DOOM"
       ],
-      "image": "camera"
+      "image": "camera",
+      "repository": "https://github.com/fev20/WHS4_DOOM_project"
     },
     {
       "id": "secure-boot",

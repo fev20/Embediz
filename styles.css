@@ -33,3 +33,6 @@
 .secure-hero .detail-hero-copy h2,.glitch-hero .detail-hero-copy h2{font-family:var(--sans);font-size:34px;line-height:1.55;letter-spacing:-.05em}
 @media(max-width:1100px){.project-grid,.listing .project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:580px){.project-grid,.listing .project-grid{grid-template-columns:1fr}.project-content h3{font-size:22px}.secure-hero .detail-hero-copy h2,.glitch-hero .detail-hero-copy h2{font-size:29px}}
+
+.project-actions{display:flex;flex-wrap:wrap;gap:12px;justify-self:end;align-items:center}.project-actions .button{white-space:nowrap}
+@media(max-width:820px){.project-actions{justify-self:start}}
